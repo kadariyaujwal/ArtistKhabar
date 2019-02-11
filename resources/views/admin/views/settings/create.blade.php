@@ -16,7 +16,7 @@
 @stop
 
 @section('js')
-    <script src="{{asset('js/filemanager.js')}}"></script>
+    <script src="{{asset('vendor/laravel-filemanager/js/stand-alone-button.js')}}"></script>
     <script>
         $(function () {
             $('#lfm').filemanager('image');
@@ -73,7 +73,7 @@
                                 </span>
                                 <input id="thumbnail" readonly="readonly" class="form-control" type="text" name="settings[images][]" required="required">
                             </div>
-                            <div id="holder" style="margin-top:15px;max-height:100px;"></div>
+                            <div id="holder" style="margin-top:15px;"></div>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Create!!</button>

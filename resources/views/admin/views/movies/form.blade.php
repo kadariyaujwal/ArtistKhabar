@@ -21,7 +21,7 @@
             $(".select2").select2();
         })
     </script>
-    <script src="{{asset('js/filemanager.js')}}"></script>
+    <script src="{{asset('vendor/laravel-filemanager/js/stand-alone-button.js')}}"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
 
     <script>
@@ -83,7 +83,7 @@
                                 <input id="thumbnail" readonly="readonly" class="form-control" type="text"
                                        name="movie[cover]" required="required">
                             </div>
-                            <img id="holder" style="margin-top:15px;max-height:100px;">
+                            <div id="holder"></div>
                         </div>
                         <div class="form-group">
                             <label for="lfm1">Select picture*</label>
@@ -96,7 +96,7 @@
                                 <input id="thumbnail1" readonly="readonly" class="form-control" type="text"
                                        name="movie[photo]" required="required">
                             </div>
-                            <img id="holder1" style="margin-top:15px;max-height:100px;">
+                            <div id="holder1"></div>
                         </div>
                         <div class="form-group">
                             <label for="movie[title]">Title*</label>

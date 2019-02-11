@@ -26,7 +26,7 @@
             $(".select2").select2();
         })
     </script>
-    <script src="{{asset('js/filemanager.js')}}"></script>
+    <script src="{{asset('vendor/laravel-filemanager/js/stand-alone-button.js')}}"></script>
     <script>
         $(function () {
             $('#lfm').filemanager('image');
@@ -71,7 +71,7 @@
                                 </span>
                                 <input id="thumbnail" readonly="readonly" class="form-control" type="text" name="quiz[picture]" required="required">
                             </div>
-                            <img id="holder" style="margin-top:15px;max-height:100px;">
+                            <div id="holder"></div>
                         </div>
                         <div class="form-group">
                             <label for="quiz[description]">Description*</label>
