@@ -27,8 +27,7 @@ class EventRequest extends FormRequest
             'title'=>'required',
             'description'=>'required',
             'location'=>'required',
-            'date'=>'required',
-            // 'main_picture'=>'required|image|image|mimes:jpeg,png,jpg,gif,svg|max:5000'
+            'date'=>'required'
         ];
     }
 }

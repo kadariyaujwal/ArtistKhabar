@@ -12,15 +12,15 @@
                             @csrf
                             <div class="form-group">
                                 <label for="name">Title *</label>
-                                <input type="text" class="form-control" placeholder="Title...">
+                                <input type="text" class="form-control" placeholder="Title..." name="title">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description *</label>
-                                <input type="textarea" placeholder="Description..." class="form-control">
+                                <textarea placeholder="Description..." class="form-control" name="description"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="location">Location *</label>
-                                <input type="text" placeholder="Location..." class="form-control">
+                                <input type="text" placeholder="Location..." class="form-control" name="location">
                             </div>
                             <div class="form-group">
                                 <label for="date">Date *</label>
@@ -39,6 +39,14 @@
                                         required="required">
                                 </div>
                                 <div id="holder"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="artists[]">Artists *</label>
+                                <select name="artists[]" class="select2 form-control" multiple required placeholder="Select artsists">
+                                    @foreach($artists as $artist)
+                                    <option value="{{$artist->id}}" class="form-control">{{$artist->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="lfm1">Select other pictures </label>

@@ -66,8 +66,8 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
-        return view('admin.views.events.create');
+        $data['artists'] = Artist::all();
+        return view('admin.views.events.create')->with($data);
     }
     /**
      * Store a newly created resource in storage.
@@ -75,26 +75,50 @@ class EventController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(EventRequest $request)
-    {
-        //
+    public function store(Request $request) {
         $event = Event::create([
-            'location'=>$request->location,
-            'title'=>$request->title,
-            'description'=>$request->description,
-            'date'=>$request->date
+            'location' => $request->location,
+            'title' => $request->title,
+            'description' => $request->description,
+            'date' => $request->date
         ]);
-        // if($request->hasFile('main_picture')){
-        //     $eventPhoto = EventPhoto::create([
-        //         'cover'=>true,
-        //         'img_path'=>Storage::url()
-        //     ]);
-        //     $event->save($eventPhoto);
-        // }
-        return response()->json([
-            'message'=>'Event Created successfully',
-            'event'=>new EventResource($event)
+
+        $event->artists()->attach($request->artists);
+
+        $cover = $request->main_picture;
+        $covers = explode(",", $cover);
+        if(is_array($covers)) {
+            foreach($covers as $cover) {
+                $temp = parse_url($cover);
+                $path = $temp['path'];
+                $cover = $path;
+                break;
+            }
+        }
+        $event->photos()->create([
+            'event_id' => $event->id,
+            'cover' => 1,
+            'path' => $cover
         ]);
+        $photos = explode(',', $request->pictures);
+        $pictures = [];
+        if(is_array($photos)) {
+            foreach($photos as $photo) {
+                $temp = parse_url($photo);
+                $path = $temp['path'];
+                $pictures[] = [
+                    'event_id' => $event->id,
+                    'cover' => 0,
+                    'path' => $path
+                ];
+            }
+        }
+        if(count($pictures) > 0) {
+            $event->photos()->createMany($pictures);
+        }
+        // Edited by Razeev
+        \Session::flash('success', 'Event created successfully.');
+        return redirect()->action('EventController@index');
     }
     /**
      * Display the specified resource.
