@@ -31,7 +31,6 @@
                                 <th>Id</th>
                                 <th>Release Date</th>
                                 <th>Title</th>
-                                <th>Photo</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -58,10 +57,6 @@
                         }, orderable: true, searchable: false
                     },
                     {data: 'title', name: 'title'},
-                    {data: 'photo', "render": function (data) {
-                            return $("<div/>").html(data).text();
-                        }, orderable: false, searchable: false
-                    },
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ]
             });

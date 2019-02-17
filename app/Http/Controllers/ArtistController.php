@@ -13,7 +13,7 @@ class ArtistController extends Controller
 {
     public function getAllArtist()
     {
-        $artists = Artist::with('movies')->get();
+        $artists = Artist::with('movies','images')->get();
         return Datatables::of($artists)->addColumn('action', function ($user) {
             return '
                 <div class="btn-group">
@@ -67,9 +67,32 @@ class ArtistController extends Controller
     {
         $artist = new Artist;
         foreach($request->artist as $key => $value) {
+            if($key == 'picture') {
+                $images = explode(",", $value);
+                foreach ($images as $k => $image) {
+                    $images[$k] = parse_url($image)['path'];
+                }
+                $value = implode(",", $images);
+            }
+            if ($key == 'cover_picture') {
+                $images_cover = explode(",", $value);
+                if(is_array($images_cover)) {
+                    $value = parse_url($images[0])['path'];
+                }
+            }
             $artist->$key = $value;
         }
         $artist->save();
+        if(is_array($images)) {
+            $imageData = [];
+            foreach ($images as $image) {
+                $imageData[] = [
+                    'artist_id' => $artist->id,
+                    'url' => $image
+                ];
+            }
+            $artist->images()->createMany($imageData);
+        }
         \Session::flash('success', 'Artist is created successfully.');
         return redirect()->action('ArtistController@index');
     }
@@ -82,7 +105,7 @@ class ArtistController extends Controller
      */
     public function show($id)
     {
-        $artist = Artist::find($id);
+        $artist = Artist::with('images','gallery')->find($id);
         return view('admin.views.artist.view',[
             'profile' => $artist
         ]);
@@ -96,7 +119,8 @@ class ArtistController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['artist'] = Artist::with('images','gallery')->find($id);
+        return view('admin.views.artist.edit')->with($data);
     }
 
     /**
@@ -108,7 +132,37 @@ class ArtistController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $artist = Artist::find($id);
+        foreach($request->artist as $key => $value) {
+            if($key == 'picture') {
+                $images = explode(",", $value);
+                foreach ($images as $k => $image) {
+                    $images[$k] = parse_url($image)['path'];
+                }
+                $value = implode(",", $images);
+            }
+            if ($key == 'cover_picture') {
+                $images_cover = explode(",", $value);
+                if(is_array($images_cover)) {
+                    $value = parse_url($images[0])['path'];
+                }
+            }
+            $artist->$key = $value;
+        }
+        $artist->save();
+        $artist->images()->where('artist_id', $artist->id)->delete();
+        if(is_array($images)) {
+            $imageData = [];
+            foreach ($images as $image) {
+                $imageData[] = [
+                    'artist_id' => $artist->id,
+                    'url' => $image
+                ];
+            }
+            $artist->images()->createMany($imageData);
+        }
+        \Session::flash('success', 'Artist is created successfully.');
+        return redirect()->action('ArtistController@index');
     }
 
     /**

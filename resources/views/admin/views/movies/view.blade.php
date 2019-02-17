@@ -42,7 +42,12 @@
                             <tr>
                                 <td>Photo</td>
                                 <td>
-                                    <img src="{{url($movie->photo)}}" class="img img-responsive">
+                                    <div class="row">
+                                    <?php $images = explode(',', $movie->photo); ?>
+                                        @foreach($images as $image)
+                                            <img src="{{url($image)}}" class="img img-responsive col-md-4">
+                                        @endforeach
+                                    </div>
                                 </td>
                             </tr>
 <tr>

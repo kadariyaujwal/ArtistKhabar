@@ -54,8 +54,8 @@
                 columns: [
                     {data: 'id', name: 'id'},
                     {
-                        data: 'picture', "render": function (data) {
-                            return '<img src="' + data + '" class="img img-responsive img-circle" />';
+                        data: 'images', "render": function (data) {
+                            return '<img src="' + data[0].url + '" class="img img-responsive img-circle" />';
                         }, orderable: false, searchable: false
                     },
                     {data: 'name', name: 'name'},

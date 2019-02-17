@@ -78,6 +78,18 @@ class MovieController extends Controller
         $data = $request->movie;
         $movieModel = new Movie;
         foreach ($data as $key => $movie) {
+            if($key == 'cover') {
+                $movie = parse_url($movie)['path'];
+                $movieModel->$key = $movie;
+            }
+            if($key == 'photo') {
+                $movie = explode(",", $movie);
+                foreach ($movie as $k => $m) {
+                    $movie[$k] = parse_url($m)['path'];
+                }
+                $movie = implode(",", $movie);
+                $movieModel->$key = $movie;
+            }
             if($key == 'age_limit') {
                 $movieModel->$key = implode(',',$movie);
             } else {
@@ -86,7 +98,7 @@ class MovieController extends Controller
         }
         $movieModel->save();
         $artist = Artist::find($request->all_actor);
-        $movieModel->actors()->attach($artist);
+        $movieModel->actorlist()->attach($artist);
         \Session::flash('success', 'Movie is created successfully.');
         return redirect()->action('MovieController@index');
     }
@@ -100,7 +112,7 @@ class MovieController extends Controller
     public function show($id)
     {
         $data['movie'] = Movie::with('actorlist', 'leadactor')->whereIn('id',[$id])->get()->first();
-        
+
         return view('admin.views.movies.view')->with($data);
     }
 
@@ -112,7 +124,9 @@ class MovieController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data['actors'] = Artist::all();
+        $data['movie'] = Movie::with('actorlist', 'leadactor')->whereIn('id',[$id])->get()->first();
+        return view('admin.views.movies.edit')->with($data);
     }
 
     /**
@@ -124,7 +138,32 @@ class MovieController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->movie;
+        $movieModel = Movie::with('actorlist')->find($id);
+        foreach ($data as $key => $movie) {
+            if($key == 'cover') {
+                $movie = parse_url($movie)['path'];
+                $movieModel->$key = $movie;
+            }
+            if($key == 'photo') {
+                $movie = explode(",", $movie);
+                foreach ($movie as $k => $m) {
+                    $movie[$k] = parse_url($m)['path'];
+                }
+                $movie = implode(",", $movie);
+                $movieModel->$key = $movie;
+            }
+            if($key == 'age_limit') {
+                $movieModel->$key = implode(',',$movie);
+            } else {
+                $movieModel->$key = $movie;
+            }
+        }
+        $movieModel->save();
+        $artist = Artist::find($request->all_actor);
+        $movieModel->actorlist()->sync($artist);
+        \Session::flash('success', 'Movie is updated successfully.');
+        return redirect()->action('MovieController@index');
     }
 
     /**

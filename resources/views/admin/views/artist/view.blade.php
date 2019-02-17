@@ -20,7 +20,7 @@
         <div class="col-md-3">
             <div class="box box-primary">
                 <div class="box-body box-profile">
-                    <img class="profile-user-img img-responsive img-circle" src="{{$profile->picture}}"
+                    <img class="profile-user-img img-responsive img-circle" src="{{$profile->images[0]->url}}"
                          alt="{{$profile->name}}">
 
                     <h3 class="profile-username text-center">{{$profile->name}}</h3>
@@ -83,7 +83,24 @@
                         </p>
                     </div>
                     <div id="pictures" class="tab-pane">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aperiam architecto at aut consequuntur esse id impedit incidunt, laboriosam, modi molestias nobis, quaerat quibusdam reiciendis soluta suscipit voluptates? Accusantium, doloremque.</p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Images</h5>
+                            </div>
+                            @foreach($profile->images as $image)
+                                    <img src="{{$image->url}}" alt="{{$image->title}}" class="img img-responsive col-md-4">
+                            @endforeach
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5>Gallery</h5>
+                            </div>
+                        @foreach($profile->gallery as $gallery)
+                            <a href="{{route('gallery.show',[$gallery->id])}}" class="col-md-4">
+                                <img src="{{$gallery->cover}}" alt="{{$gallery->title}}" class="img img-responsive">
+                            </a>
+                        @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

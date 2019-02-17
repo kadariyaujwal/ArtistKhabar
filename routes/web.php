@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin'], function () {
     Auth::routes();
-    Route::group(['middleware' => 'role:admin'], function () {
+    Route::group([], function () {
         Route::get('home', 'HomeController@index')->name('home');
         Route::resource('artist', 'ArtistController');
         Route::resource('gallery', 'GalleryController');

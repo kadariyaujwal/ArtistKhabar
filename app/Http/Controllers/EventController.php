@@ -153,7 +153,6 @@ class EventController extends Controller
      */
     public function update(EventRequest $request, Event $event)
     {
-        //
         $event->update([
             'title'=>$request->title,
             'description'=>$request->description,
@@ -163,11 +162,28 @@ class EventController extends Controller
         if($request->artists){
             $event->artists()->sync($request->artists);
         }
+        $pictures = explode(",", $request->pictures);
+        $covers = explode(",", $request->main_picture);
+        foreach ($pictures as $key => $picture) {
+            $pictures[$key] = [
+                "path"=> parse_url($picture)['path'],
+                "event_id" => $event->id,
+                "cover" => 0
+                ];
+        }
+        foreach ($covers as $key => $picture) {
+            $covers[$key] = [
+                "path"=> parse_url($picture)['path'],
+                "event_id" => $event->id,
+                "cover" => 1
+                ];
+            break;
+        }
+
+        $event->photos()->where('event_id', $event->id)->delete();
+        $event->photos()->createMany($pictures);
+        $event->photos()->createMany($covers);
         return redirect(route('events.index'));
-        return response()->json([
-            'message'=>'Event updated successfully',
-            'event'=>new EventResource($event),
-        ]);
     }
 
     /**
