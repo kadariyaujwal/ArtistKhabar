@@ -16,8 +16,12 @@ class AppController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function getSettings() {
-        $settings = App::where('status', 1)->get();
+    public function getSettings($data = false) {
+        if($data) {
+            $settings = App::where('status', 1)->where($data)->get();
+        } else {
+            $settings = App::where('status', 1)->get();
+        }
         $finalSettings = new \stdClass();
         foreach ($settings as $setting) {
             $title = $setting->title;
@@ -33,7 +37,8 @@ class AppController extends Controller
     public function syncApp() {
         $today = new Carbon('today');
         $nextmonth = new Carbon('next month');
-        $data['artists'] = Artist::with('images')->whereBetween('birthday',[$today->toDateTimeString(),$nextmonth->toDateTimeString()])->orderBy('updated_at','DESC')->limit(5)->get();
+        $data['birthday'] = Artist::with('images')->whereBetween('birthday',[$today->toDateTimeString(),$nextmonth->toDateTimeString()])->orderBy('birthday','ASC')->limit(5)->get();
+        $data['settings'] = $this->getSettings();
         return $data;
     }
 
