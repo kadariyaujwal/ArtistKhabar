@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\App;
 use App\Artist;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 //use Session;
 
@@ -30,7 +31,9 @@ class AppController extends Controller
     }
 
     public function syncApp() {
-        $data['artists'] = Artist::with('images')->orderBy('updated_at','DESC')->get();
+        $today = new Carbon('today');
+        $nextmonth = new Carbon('next month');
+        $data['artists'] = Artist::with('images')->whereBetween('birthday',[$today->toDateTimeString(),$nextmonth->toDateTimeString()])->orderBy('updated_at','DESC')->limit(5)->get();
         return $data;
     }
 
