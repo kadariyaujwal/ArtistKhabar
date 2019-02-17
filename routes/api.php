@@ -11,6 +11,9 @@ Route::get('movieList', 'MovieController@getAllMovies');
 Route::get('eventList', 'EventController@list');
 
 
+Route::get('sync', 'AppController@syncApp');
+
+
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'AuthController@login');
     Route::post('signup', 'AuthController@signup');
