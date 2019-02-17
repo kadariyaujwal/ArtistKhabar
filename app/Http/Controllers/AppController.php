@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\App;
 use App\Artist;
 use App\Event;
+use App\Gallery;
 use App\Movie;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -43,6 +44,7 @@ class AppController extends Controller
         $data['settings'] = $this->getSettings();
         $data['events'] = Event::with('photos')->whereBetween('date',[$today->toDateTimeString(),$nextmonth->toDateTimeString()])->orderBy('date','ASC')->limit(5)->get();
         $data['movies'] = Movie::with('actorlist','leadactor')->whereBetween('release_date',[$today->toDateTimeString(),$nextmonth->toDateTimeString()])->orderBy('release_date','ASC')->limit(5)->get();
+        $data['galleries'] = Gallery::with('images','artist')->orderBy('id','DESC')->limit(5)->get();
         return $data;
     }
 
