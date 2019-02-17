@@ -40,5 +40,5 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/', 'API\EventController@index');
         Route::get('{id}', 'API\EventController@show');
     });
-})
+});
 
