@@ -16,12 +16,10 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function list(){
-        $events =Event::all();
-        return DataTables::of($events)
-        ->addColumn('actions',function($row){
-            return '
-                <div class="row">
+    public function list() {
+        $events = Event::all();
+        return DataTables::of($events)->addColumn('actions',function($row) {
+            return '<div class="row">
                 <div class="btn-group">
                 <button type="button" class="btn btn-info btn-xs dropdown-toggle btn-flat" data-toggle="dropdown" aria-expanded="false">
                     <span class="caret"></span>
@@ -129,7 +127,7 @@ class EventController extends Controller
     public function show($id)
     {
         $event = Event::with(['artists','photos'])->findOrFail($id);
-        return view('admin.views.events.view',compact('event'));
+        return view('admin.views.events.view', compact('event'));
     }
     /**
      * Show the form for editing the specified resource.

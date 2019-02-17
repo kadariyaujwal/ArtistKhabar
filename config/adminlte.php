@@ -85,15 +85,15 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => 'admin/home',
 
-    'logout_url' => 'logout',
+    'logout_url' => 'admin/logout',
 
-    'logout_method' => null,
+    'logout_method' => 'POST',
 
-    'login_url' => 'login',
+    'login_url' => 'admin/login',
 
-    'register_url' => 'register',
+    'register_url' => 'admin/register',
 
     /*
     |--------------------------------------------------------------------------
@@ -114,10 +114,10 @@ return [
             'icon'        => 'user',
             'submenu'     => [
                 [
-                    'url' => 'artist',
+                    'url' => 'admin/artist',
                     'text' => 'Manage Artist'
                 ],[
-                    'url' => 'artist/create',
+                    'url' => 'admin/artist/create',
                     'text' => 'Create Artist'
                 ],
             ]
@@ -129,10 +129,10 @@ return [
             'submenu'     => [
                 [
                     'text'     => 'Manage quiz',
-                    'url'      => 'quiz'
+                    'url'      => 'admin/quiz'
                 ], [
                     'text'     => 'New quiz',
-                    'url'      => 'quiz/create'
+                    'url'      => 'admin/quiz/create'
                 ],
             ]
         ],
@@ -142,10 +142,10 @@ return [
             'submenu'     => [
                 [
                     'text'     => 'Manage questions',
-                    'url'      => 'question'
+                    'url'      => 'admin/question'
                 ], [
                     'text'     => 'New Question',
-                    'url'      => 'question/create'
+                    'url'      => 'admin/question/create'
                 ],
             ]
         ],[
@@ -154,10 +154,10 @@ return [
             'submenu'      => [
                 [
                     'text'    => 'Manage prizes',
-                    'url'     => 'prizes'
+                    'url'     => 'admin/prizes'
                 ],[
                     'text'    => 'New prizes',
-                    'url'     => 'prizes/create'
+                    'url'     => 'admin/prizes/create'
                 ]
             ]
         ],
@@ -168,10 +168,10 @@ return [
             'submenu'  => [
                 [
                     'text'   => 'Manage event',
-                    'url'    => 'events'
+                    'url'    => 'admin/events'
                 ], [
                     'text'   => 'New event',
-                    'url'    => 'events/create'
+                    'url'    => 'admin/events/create'
                 ]
             ]
         ],
@@ -181,10 +181,10 @@ return [
             'submenu'  => [
                 [
                     'text'   => 'Manage movie',
-                    'url'    => 'movies'
+                    'url'    => 'admin/movies'
                 ], [
                     'text'   => 'New release',
-                    'url'    => 'movies/create'
+                    'url'    => 'admin/movies/create'
                 ]
             ]
         ],
@@ -195,8 +195,22 @@ return [
             'submenu'  => [
                 [
                     'text'   => 'Manage users',
-                    'url'    => 'users'
+                    'url'    => 'admin/users'
                 ]
+            ]
+        ],
+        'PHOTOS',
+        [
+            'text' => 'Gallery',
+            'icon' => 'photo',
+            'submenu' => [
+                [
+                    'text' => 'Manage Gallery',
+                    'url' => 'admin/gallery'
+                ],[
+                    'text' => 'Create Gallery',
+                    'url' => 'admin/gallery/create'
+                ],
             ]
         ],
         'SETTINGS',
@@ -206,17 +220,13 @@ return [
             'submenu'  => [
                 [
                     'text' => 'Manage Settings',
-                    'url'  => 'settings'
+                    'url'  => 'admin/settings'
                 ],[
                     'text' => 'New Settings',
-                    'url'  => 'settings/create'
+                    'url'  => 'admin/settings/create'
                 ],
             ]
-        ],[
-            'text'     => 'Gallery',
-            'icon'     => 'photo',
-            'url'      => 'gallery'
-        ]
+        ],
     ],
 
     /*

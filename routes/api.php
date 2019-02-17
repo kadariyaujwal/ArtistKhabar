@@ -14,14 +14,15 @@ Route::group(['prefix' => 'auth'], function () {
 });
 Route::get('artistList', 'ArtistController@getAllArtist');
 Route::get('quizList', 'QuizController@getAllQuiz');
-Route::get('galleriesList', 'GalleryController@getAllImages');
 Route::get('questionList', 'QuestionController@getAllQuestions');
 Route::get('prizesList', 'PrizeController@getAllPrizes');
 Route::get('movieList', 'MovieController@getAllMovies');
+Route::get('eventList','EventController@list');
 
 
 Route::get('profile','API\UserController@profile');
 Route::patch('profile','API\UserController@updateProfile');
+Route::get('settings','AppController@getSettings');
 
 Route::group(['prefix'=>'quiz'],function(){
     Route::get('main','API\QuizController@getAllMainQuiz');
@@ -36,4 +37,7 @@ Route::group(['prefix'=>'movies'],function(){
     Route::get('/released','API\MovieController@released');
 });
 
-Route::resource('events','API\EventController');
+Route::group(['prefix' => 'events'], function () {
+    Route::get('/', 'API\EventController@index');
+    Route::get('{id}', 'API\EventController@show');
+});

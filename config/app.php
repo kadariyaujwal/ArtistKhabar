@@ -170,6 +170,7 @@ return [
         Shankhadev\Bsdate\BsdateServiceProvider::class,
         UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        jeremykenedy\LaravelRoles\RolesServiceProvider::class,
         /*
          * Application Service Providers...
          */

@@ -16,20 +16,20 @@ Route::get('/', function () {
 });
 
 
-Route::post('uploadImage', 'GalleryController@uploadImage')->name('uploadImage');
-Auth::routes();
-
-Route::get('home', 'HomeController@index')->name('home');
-Route::resource('artist', 'ArtistController');
-Route::resource('gallery', 'GalleryController');
-Route::resource('quiz', 'QuizController');
-Route::resource('question', 'QuestionController');
-Route::resource('prizes', 'PrizeController');
-Route::resource('movies', 'MovieController');
-Route::resource('settings', 'AppController');
-
-Route::get('/events/list','EventController@list')->name('events.list');
-Route::resource('events','EventController');
+Route::group(['prefix' => 'admin'], function () {
+    Auth::routes();
+    Route::group(['middleware' => 'role:admin'], function () {
+        Route::get('home', 'HomeController@index')->name('home');
+        Route::resource('artist', 'ArtistController');
+        Route::resource('gallery', 'GalleryController');
+        Route::resource('quiz', 'QuizController');
+        Route::resource('question', 'QuestionController');
+        Route::resource('prizes', 'PrizeController');
+        Route::resource('movies', 'MovieController');
+        Route::resource('settings', 'AppController');
+        Route::resource('events','EventController');
+    });
+});
 
 
 

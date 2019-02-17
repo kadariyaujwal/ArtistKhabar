@@ -40,7 +40,18 @@
                                 <tr>
                                     <td>{{$setting->id}}</td>
                                     <td>{{$setting->title}}</td>
-                                    <td>{!!$setting->type ? "<img src='".$setting->value."' class='img img-responsive' height='80' width='200'> " : $setting->value!!}</td>
+                                    <td>
+                                        @if($setting->type)
+                                            <?php
+                                                $images = explode(",", $setting->value);
+                                                foreach ($images as $image) {
+                                                    echo "<img src='".$image."' class='img img-responsive col-md-4' style='height:80px; width:100px'>";
+                                                }
+                                            ?>
+                                        @else
+                                            {!! $setting->value !!}
+                                        @endif
+                                    </td>
                                     <td>{{$setting->status ? 'Active' : 'In Active'}}</td>
                                     <td>
                                         <div class="btn-group">
@@ -50,7 +61,6 @@
                                             </button>
                                             <button type="button" class="btn btn-info btn-xs btn-flat">Action</button>
                                             <ul class="dropdown-menu" role="menu">
-                                                <li><a href="{{route('settings.show',[$setting->id])}}">View</a></li>
                                                 <li><a href="{{route('settings.edit',[$setting->id])}}">Edit</a></li>
                                                 <li class="divider"></li>
                                                 <li>

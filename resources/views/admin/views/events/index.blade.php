@@ -31,7 +31,7 @@
         $('#eventsList').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{route("events.list")}}',
+            ajax: '{{url("api/eventList")}}',
             columns: [{
                     data: 'id',
                     name: 'id',

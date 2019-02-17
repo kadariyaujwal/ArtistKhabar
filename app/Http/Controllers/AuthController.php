@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\User;
+use jeremykenedy\LaravelRoles\Models\Role;
 
 class AuthController extends Controller
 {
@@ -31,8 +32,11 @@ class AuthController extends Controller
             'password' => bcrypt($request->password)
         ]);
         $user->save();
+        $role = Role::where('slug', 'user')->first();
+        $user->attachRole($role);
+
         return response()->json([
-            'message' => 'Successfully created user!'
+            'message' => 'User registered successfully!!'
         ], 201);
     }
 

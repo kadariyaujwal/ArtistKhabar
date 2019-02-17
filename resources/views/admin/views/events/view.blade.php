@@ -5,26 +5,34 @@
        <div class="col-md-7">
             <div class="box">
                     <div class="box-header bg-blue">
-                        <h3 class="box-title">Event: {{$event->title}}</h3>
+                        <h3 class="box-title">{{$event->title}}</h3>
                     </div>
                     <div class="box-body">
                         <table class="table table-responsive table-striped">
-                            @foreach($event->toArray() as $key=>$value)
-                            @if(gettype($value)!='array')
-                            <tr>  
-                                <th>{{$key}}</th>
-                                <td>{{$value}} </td>
+                            <tr>
+                                <td>Title</td>
+                                <td>{{$event->title}}</td>
                             </tr>
-                            @endif
-                            @endforeach
-                            @if($event->artists->toArray())
-                            <th>Artists</th>
-                            <td>
-                            @foreach($event->artists as $artist)
-                                <a style="margin-right:10px" href="{{route('artist.show',$artist->id)}}">{{$artist->name}}</a>
-                            @endforeach
-                            </td>
-                            @endif
+                            <tr>
+                                <td>Description</td>
+                                <td>{{$event->description}}</td>
+                            </tr>
+                            <tr>
+                                <td>Location</td>
+                                <td>{{$event->location}}</td>
+                            </tr>
+                            <tr>
+                                <td>Date</td>
+                                <td>{{$event->date}}</td>
+                            </tr>
+                            <tr>
+                                <td>Artists</td>
+                                <td>
+                                    @foreach($event->artists as $artist)
+                                        <a style="margin-right:10px" href="{{route('artist.show',$artist->id)}}">{{$artist->name}}</a>
+                                    @endforeach
+                                </td>
+                            </tr>
                         </table>
                     </div>
                 </div>

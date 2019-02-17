@@ -15,10 +15,10 @@ class CreateGalleriesTable extends Migration
     {
         Schema::create('galleries', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('image');
-            $table->string('thumbnail')->nullable();
-            $table->string('title')->nullable();
-            $table->integer('status');
+            $table->integer('artist_id');
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->string('cover');
             $table->timestamps();
         });
     }

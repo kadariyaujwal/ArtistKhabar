@@ -13,6 +13,7 @@
 @stop
 
 @section('content')
+    @include('flash::message')
     <div class="row">
         <div class="col-md-12">
             <div class="box box-primary">
@@ -22,34 +23,52 @@
                     </h3>
                 </div>
                 <div class="box-body">
-                    <form method="POST" action="{{ route('gallery.store') }}" enctype="multipart/form-data"  class="form-inline">
-                        <p><small>Note: Total size of uploading files shold not be greater than 8 MB.</small></p>
-                        <div class="form-group">
-                            <label for="">Image</label>
-                            <input type="file" name="image[]"  accept="image/png, image/jpeg, image/jpg, image/gif"  class="form-control" multiple/>
-                            <input type="text" name="title" placeholder="Image description (Optional)" class="form-control"/>
-                            <select name="status" class="form-control">
-                                <option value="1">Publish</option>
-                                <option value="0">Save in draft</option>
-                            </select>
-                            {{ csrf_field() }}
-                            <button type="submit" class="btn btn-success" style="margin-bottom: 0px;">Upload</button>
-                        </div>
-                    </form>
-                    <br>
-                    <hr>
                     <div class="table table-responsive">
                         <table class="table table-striped" id="gallery_list">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Thumbnail</th>
-                                    <th>Image</th>
-                                    <th>Status</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Cover</th>
+                                    <th>Created at</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                @foreach($galleries as $gallery)
+                                <tr>
+                                    <td>{{$gallery->id}}</td>
+                                    <td>{{$gallery->title}}</td>
+                                    <td>{{$gallery->description}}</td>
+                                    <td>
+                                        <img src="{{$gallery->cover}}" class="img img-responsive" style="height: 140px; width: 200px;"/>
+                                    </td>
+                                    <td>
+                                        {{date('M d, Y')}}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-info btn-xs dropdown-toggle btn-flat" data-toggle="dropdown" aria-expanded="false">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-xs btn-flat">Action</button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="{{route('gallery.show', [$gallery->id])}}">View</a></li>
+                                                <li><a href="{{route('gallery.edit', [$gallery->id])}}">Edit</a></li>
+                                                <li class="divider"></li>
+                                                <li>
+                                                    <a href="{{route('gallery.destroy', [$gallery->id])}}" class="delete">Delete</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
                         </table>
+                        {{$galleries->links()}}
                     </div>
                 </div>
             </div>
@@ -60,26 +79,6 @@
 @section('js')
     <script>
         $(function () {
-            $('#gallery_list').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{{url('api/galleriesList')}}',
-                columns: [
-                    {data: 'id', name: 'id'},
-                    {
-                        data: 'thumbnail', "render": function (data) {
-                            return '<img src="' + data + '" class="img img-responsive img-circle" />';
-                        }, orderable: false, searchable: false
-                    },
-                    {data: 'title', name: 'title'},
-                    {data: 'status', 'render': function (data) {
-                            return data ? 'Active' : 'Inactive';
-                        }},
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
-                ]
-            });
-
-            // Delete artist data
             $('#gallery_list').on('click', '.delete', function (e) {
                 e.preventDefault();
                 $.ajaxSetup({

@@ -13,6 +13,22 @@ class AppController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getSettings() {
+        $settings = App::where('status', 1)->get();
+        $finalSettings = new \stdClass();
+        foreach ($settings as $setting) {
+            $title = $setting->title;
+            if($setting->type) {
+                $setting->value = explode(",", $setting->value);
+            }
+            $finalSettings->$title = $setting;
+        }
+        $final['data'] = $finalSettings;
+        return $final;
+    }
+
+
     public function index()
     {
         $data['settings'] = App::paginate(10);
@@ -46,7 +62,11 @@ class AppController extends Controller
         } else {
             $setting->title = $request->settings['title'];
             $setting->type = 1;
-            $setting->value = implode(' , ', $request->settings['images']);
+            $images = explode(",", $request->settings['images']);
+            foreach ($images as $key => $image) {
+                $images[$key] = parse_url($image)['path'];
+            }
+            $setting->value = implode(",", $images);
         }
         $setting->save();
 
@@ -95,7 +115,11 @@ class AppController extends Controller
         } else {
             $setting->title = $request->settings['title'];
             $setting->type = 1;
-            $setting->value = implode(',', $request->settings['images']);
+            $images = explode(",", $request->settings['images']);
+            foreach ($images as $key => $image) {
+                $images[$key] = parse_url($image)['path'];
+            }
+            $setting->value = implode(",", $images);
         }
         $setting->status = $request->settings['status'];
         $setting->save();

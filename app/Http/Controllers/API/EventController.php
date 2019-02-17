@@ -17,8 +17,8 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
-        return EventResource::collection(Event::with(['artists','photos'])->orderBy('date','asc')->paginate(10));
+        $data = Event::with('artists', 'photos')->orderBy('date')->paginate(10);
+        return EventResource::collection($data);
     }
     /**
      * Show the form for creating a new resource.
@@ -39,16 +39,16 @@ class EventController extends Controller
     public function store(EventRequest $request)
     {
         //
-        $event = Event::create([
-            'location'=>$request->location,
-            'title'=>$request->title,
-            'description'=>$request->description,
-            'date'=>$request->date
-        ]);
-        return response()->json([
-            'message'=>'Event Created successfully',
-            'event'=>new EventResource($event)
-        ]);
+        // $event = Event::create([
+        //     'location'=>$request->location,
+        //     'title'=>$request->title,
+        //     'description'=>$request->description,
+        //     'date'=>$request->date
+        // ]);
+        // return response()->json([
+        //     'message'=>'Event Created successfully',
+        //     'event'=>new EventResource($event)
+        // ]);
     }
     /**
      * Display the specified resource.

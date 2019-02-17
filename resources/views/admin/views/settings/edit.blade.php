@@ -16,7 +16,7 @@
 @stop
 
 @section('js')
-    <script src="{{asset('js/filemanager.js')}}"></script>
+    <script src="{{asset('vendor/laravel-filemanager/js/stand-alone-button.js')}}"></script>
     <script>
         $(function () {
             $('#lfm').filemanager('image');
@@ -72,9 +72,9 @@
                                        <i class="fa fa-picture-o"></i> Choose
                                     </a>
                                 </span>
-                            <input id="thumbnail" readonly="readonly" class="form-control" type="text" name="settings[images][]" required="required" value="{{$app->value}}">
+                            <input id="thumbnail" readonly="readonly" class="form-control" type="text" name="settings[images]" required="required" value="{{$app->value}}">
                             </div>
-                        <img id="holder" style="margin-top:15px;max-height:100px;" src="{{$app->value}}">
+                            <div id="holder" style="margin-top:15px;max-height:100px;" src="{{$app->value}}"></div>
                         </div>
                         <div class="radio">
                                 <label>

@@ -14,4 +14,8 @@ class Artist extends Model
     public function events(){
         return $this->belongsToMany('App\Event','artists_events');
     }
+
+    public function gallery() {
+        return $this->belongsTo(Gallery::class, 'artist_id');
+    }
 }
