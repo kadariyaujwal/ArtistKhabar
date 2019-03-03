@@ -29,7 +29,13 @@ class AppController extends Controller
         foreach ($settings as $setting) {
             $title = $setting->title;
             if($setting->type) {
-                $setting->value = explode(",", $setting->value);
+                $appdata = explode(",", $setting->value);
+                foreach($appdata as $key => $image) {
+                    $appdata[$key] = [
+                        "url" => $image
+                    ];
+                }
+                $setting->value = $appdata;
             }
             $finalSettings->$title = $setting;
         }
