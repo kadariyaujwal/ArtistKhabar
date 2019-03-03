@@ -46,7 +46,8 @@ class AppController extends Controller
     public function syncApp() {
         $today = new Carbon('today');
         $nextmonth = new Carbon('next month');
-        $data['birthday'] = Artist::with('images')->whereBetween('birthday',[$today->toDateTimeString(),$nextmonth->toDateTimeString()])->orderBy('birthday','ASC')->limit(5)->get();
+        $data['birthday'] = Artist::with('images')->orderBy('birthday','ASC')->limit(5)->get();
+        // whereBetween('birthday',[$today->toDateTimeString(),$nextmonth->toDateTimeString()])->
         $data['settings'] = $this->getSettings();
         $data['events'] = Event::with('photos')->whereBetween('date',[$today->toDateTimeString(),$nextmonth->toDateTimeString()])->orderBy('date','ASC')->limit(5)->get();
         $data['movies'] = Movie::with('actorlist','leadactor')->whereBetween('release_date',[$today->toDateTimeString(),$nextmonth->toDateTimeString()])->orderBy('release_date','ASC')->limit(5)->get();
