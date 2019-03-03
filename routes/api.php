@@ -12,6 +12,14 @@ Route::get('eventList', 'EventController@list');
 
 
 Route::get('sync', 'AppController@syncApp');
+Route::group(['prefix' => 'movies'], function () {
+    Route::get('/', 'API\MovieController@index');
+    Route::get('/released', 'API\MovieController@released');
+});
+Route::group(['prefix' => 'events'], function () {
+    Route::get('/', 'API\EventController@index');
+    Route::get('{id}', 'API\EventController@show');
+});
 
 
 Route::group(['prefix' => 'auth'], function () {
@@ -34,14 +42,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('{mainId}/child', 'API\QuizController@getChildQuiz');
         Route::get('{quizId}/prizes', 'API\QuizController@getPrizes');
         Route::get('{quizId}/questions', 'API\QuizController@getQuestions');
-    });
-    Route::group(['prefix' => 'movies'], function () {
-        Route::get('/', 'API\MovieController@index');
-        Route::get('/released', 'API\MovieController@released');
-    });
-    Route::group(['prefix' => 'events'], function () {
-        Route::get('/', 'API\EventController@index');
-        Route::get('{id}', 'API\EventController@show');
     });
 });
 
